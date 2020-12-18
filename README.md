@@ -1,3 +1,5 @@
+![Tests](https://github.com/SyntropyNet/syntropy-ansible-collection/workflows/Tests/badge.svg)
+
 # Syntropy Network collection
 The Ansible Syntropy Network collection includes a variety of Ansible content to help automate the management of Syntropy networks. This collection is maintained by the Syntropy team.
 
