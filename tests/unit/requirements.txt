@@ -1,0 +1,5 @@
+syntropy-sdk
+syntropynac
+pytest
+jinja2
+pyyaml

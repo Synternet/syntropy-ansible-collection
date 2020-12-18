@@ -1,0 +1,17 @@
+namespace: syntropynet
+name: syntropy
+version: 0.1.0
+readme: README.md
+authors:
+  - Andrius Mikonis (github.com/foxis)
+description: A collection of Ansible modules to manage Syntropy networks.
+license_file: COPYING
+tags:
+  - syntropy
+  - networking
+repository: https://github.com/SyntropyNet/syntropy-ansible-collection/
+homepage: https://github.com/SyntropyNet/syntropy-ansible-collection/
+issues: https://github.com/SyntropyNet/syntropy-ansible-collection/issues/
+build_ignore:
+  - .gitignore
+  - changelogs/.plugin-cache.yaml

@@ -1,0 +1,20 @@
+-r requirements.txt
+ansible
+pre-commit
+antsibull
+# Required for ansible-test
+# sanity
+flake8-docstrings  # This is required for Python 3.6 due to incompatibility
+pylint
+rstcheck
+mccabe
+antsibull-changelog
+pycodestyle
+voluptuous
+yamllint
+# units
+cryptography
+mock
+pytest
+pytest-mock
+pytest-xdist
