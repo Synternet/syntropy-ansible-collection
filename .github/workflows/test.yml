@@ -27,7 +27,7 @@ jobs:
         ansible-galaxy collection build
     - name: Test the collection
       run: |
-        ansible-galaxy collection install syntropynet-syntropy-*.tar.gz -p .collections
-        cd .collections/ansible_collections/syntropynet/syntropy
+        ansible-galaxy collection install syntropynet-syntropy-*.tar.gz -p .-collections
+        cd .-collections/ansible_collections/syntropynet/syntropy
         ansible-test sanity --python ${{ matrix.python }}
         ansible-test units --python ${{ matrix.python }}
