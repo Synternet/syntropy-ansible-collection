@@ -20,7 +20,7 @@ jobs:
         python-version: ${{ matrix.python }}
     - name: Install dependencies
       run: |
-        pip3 install --upgrade pip
+        pip3 install --upgrade pip setuptools
         pip3 install -r dev-requirements.txt
     - name: Build the collection
       run: |
