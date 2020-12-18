@@ -16,11 +16,11 @@ try:
         PlatformApi,
         ProvidersApi,
     )
-    from syntropy_sdk.exceptions import ApiException
+    from syntropy_sdk.exceptions import ApiException, SyntropyError
     from syntropy_sdk.utils import MAX_QUERY_FIELD_SIZE, BatchedRequest
     from syntropynac.configure import configure_network
     from syntropynac.exceptions import ConfigureNetworkError
-    from syntropynac.fields import ConfigFields, ConfigureNetworkError
+    from syntropynac.fields import ConfigFields
 
     HAS_SDK = True
 except ImportError:
