@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install --upgrade pip
-        pip3 install dev-requirements.txt
+        pip3 install -r dev-requirements.txt
     - name: Build the collection
       run: |
         python3 -m ansible-galaxy collection build
