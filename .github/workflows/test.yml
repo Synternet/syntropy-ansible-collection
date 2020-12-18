@@ -24,10 +24,10 @@ jobs:
         pip3 install -r dev-requirements.txt
     - name: Build the collection
       run: |
-        python3 -m ansible-galaxy collection build
+        ~/.local/bin/ansible-galaxy collection build
     - name: Test the collection
       run: |
-        python3 -m ansible-galaxy install syntropynet-syntropy-*.tar.gz -p .collections
+        ~/.local/bin/ansible-galaxy install syntropynet-syntropy-*.tar.gz -p .collections
         cd .collections/ansible_collections/syntropynet/syntropy
-        python3 -m ansible-test sanity --python ${{ matrix.python }}
-        python3 -m ansible-test units --python ${{ matrix.python }}
+        ~/.local/bin/ansible-test sanity --python ${{ matrix.python }}
+        ~/.local/bin/ansible-test units --python ${{ matrix.python }}
