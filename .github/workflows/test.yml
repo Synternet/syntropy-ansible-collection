@@ -24,10 +24,11 @@ jobs:
         pip3 install -r dev-requirements.txt
     - name: Build the collection
       run: |
+        python3 j2.py galaxy.yml.j2 -p version devel > galaxy.yml
         ansible-galaxy collection build
     - name: Test the collection
       run: |
-        ansible-galaxy collection install syntropynet-syntropy-*.tar.gz -p .-collections
+        ansible-galaxy collection install syntropynet-syntropy-devel.tar.gz -p .-collections
         cd .-collections/ansible_collections/syntropynet/syntropy
         ansible-test sanity --python ${{ matrix.python }}
         ansible-test units --python ${{ matrix.python }}

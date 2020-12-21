@@ -2,6 +2,7 @@
 ansible
 pre-commit
 antsibull
+click
 # Required for ansible-test
 # sanity
 flake8-docstrings  # This is required for Python 3.6 due to incompatibility

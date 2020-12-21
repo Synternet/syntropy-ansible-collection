@@ -22,7 +22,7 @@ certifi==2020.12.5        # via -r requirements.txt, requests, syntropy-sdk
 cffi==1.14.4              # via cryptography
 cfgv==3.2.0               # via pre-commit
 chardet==3.0.4            # via aiohttp, requests
-click==7.1.2              # via -r requirements.txt, syntropynac
+click==7.1.2              # via -r dev-requirements.in, -r requirements.txt, syntropynac
 cryptography==3.3.1       # via -r dev-requirements.in, ansible-base
 dataclasses==0.6          # via -r requirements.txt, syntropynac
 distlib==0.3.1            # via virtualenv

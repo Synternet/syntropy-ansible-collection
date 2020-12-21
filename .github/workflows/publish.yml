@@ -1,0 +1,45 @@
+name: Galaxy
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+    - name: Install dependencies
+      run: |
+        pip3 install --upgrade pip setuptools
+        pip3 install -r dev-requirements.txt
+    - name: Build the collection
+      run: |
+        export CI_SYNTROPY_VERSION=$(echo $GITHUB_REF | sed 's#.*/v##')
+        python3 j2.py galaxy.yml.j2 -p version $CI_SYNTROPY_VERSION > galaxy.yml
+        ansible-galaxy collection build
+        echo SYNTROPY_ASSET=syntropynet-syntropy-$CI_SYNTROPY_VERSION.tar.gz >> $GITHUB_ENV
+    - name: Gets latest release info
+      id: latest_release_info
+      uses: jossef/action-latest-release-info@v1.1.0
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+    - name: Upload Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+        asset_path: ${{ env.SYNTROPY_ASSET }}
+        asset_name: ${{ env.SYNTROPY_ASSET }}
+        asset_content_type: application/gzip
+    - name: Publish
+      run: |
+        echo ${{ secrets.GALAXY_TOKEN }} > ~/.ansible/galaxy_token
+        ansible-galaxy collection publish ./${{ env.SYNTROPY_ASSET }}
