@@ -41,5 +41,5 @@ jobs:
         asset_content_type: application/gzip
     - name: Publish
       run: |
-        echo ${{ secrets.GALAXY_TOKEN }} > ~/.ansible/galaxy_token
+        echo "token: ${{ secrets.GALAXY_TOKEN }}" > ~/.ansible/galaxy_token
         ansible-galaxy collection publish ./${{ env.SYNTROPY_ASSET }}
