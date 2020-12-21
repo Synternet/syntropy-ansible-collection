@@ -15,11 +15,11 @@ This collection supports Python 3.6+ only.
 
 Name | Description
 --- | ---
-[syntropynet.syntropy.syntropy_login](docs/noia_login_module.rst)|Logs in to NOIA Platform API and returns `api_token`.
-[syntropynet.noia.noia_facts](docs/noia_facts_module.rst)|Gathers facts from NOIA Platform.
-[syntropynet.noia.noia_api_key](docs/noia_api_key_module.rst)|Manages NOIA Platform API Keys.
-[syntropynet.noia.noia_network](docs/noia_network_module.rst)|Manages NOIA Platform networks and connections.
-[syntropynet.noia.noia_template](docs/noia_template_module.rst)|Manages NOIA Platform networks and connections using configuration template.
+[syntropynet.syntropy.syntropy_login](docs/syntropy_login_module.rst)|Logs in to Syntropy Stack API and returns `api_token`.
+[syntropynet.syntropy.syntropy_facts](docs/syntropy_facts_module.rst)|Gathers facts from Syntropy Stack.
+[syntropynet.syntropy.syntropy_api_key](docs/syntropy_api_key_module.rst)|Manages Syntropy Stack API Keys for endpoint agent.
+[syntropynet.syntropy.syntropy_network](docs/syntropy_network_module.rst)|Manages Syntropy Stack networks and connections.
+[syntropynet.syntropy.syntropy_template](docs/syntropy_template_module.rst)|Manages Syntropy Stack networks and connections using configuration template.
 
 ## Installing this collection
 
@@ -51,7 +51,7 @@ export SYNTROPY_API_TOKEN='{API Authorization token}'
 ```
 
 Also, it is possible to override these environment variables by specifying `api_url` and/or `api_token` module options.
-The most convenient way to do that is to specify `SYNTROPY_API_SERVER` in the environment variable and provide `api_token` by using `noia_login` module.
+The most convenient way to do that is to specify `SYNTROPY_API_SERVER` in the environment variable and provide `api_token` by using `syntropy_login` module.
 
 You can either call modules by their Fully Qualified Collection Namespace (FQCN), such as `syntropynet.syntropy.syntropy_login`, or you can call modules by their short name if you list the `syntropynet.syntropy` collection in the playbook's collections keyword:
 

@@ -70,15 +70,15 @@ semantic-version==2.8.5   # via antsibull, antsibull-changelog
 sh==1.14.1                # via antsibull
 six==1.15.0               # via -r requirements.txt, astroid, cryptography, python-dateutil, syntropy-sdk, twiggy, virtualenv
 snowballstemmer==2.0.0    # via pydocstyle, sphinx
-sphinx==3.3.1             # via antsibull
+sphinx==3.4.0             # via antsibull
 sphinxcontrib-applehelp==1.0.2  # via sphinx
 sphinxcontrib-devhelp==1.0.2  # via sphinx
 sphinxcontrib-htmlhelp==1.0.3  # via sphinx
 sphinxcontrib-jsmath==1.0.1  # via sphinx
 sphinxcontrib-qthelp==1.0.3  # via sphinx
 sphinxcontrib-serializinghtml==1.1.4  # via sphinx
-syntropy-sdk==0.1.0       # via -r requirements.txt, syntropynac
-syntropynac==0.1.0        # via -r requirements.txt
+syntropy-sdk==0.1.1       # via -r requirements.txt, syntropynac
+syntropynac==0.1.1        # via -r requirements.txt
 toml==0.10.2              # via pre-commit, pylint, pytest
 twiggy==0.5.0             # via antsibull
 typing-extensions==3.7.4.3  # via aiohttp
