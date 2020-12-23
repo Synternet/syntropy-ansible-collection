@@ -9,13 +9,7 @@ import traceback
 
 SDK_IMP_ERR = None
 try:
-    from syntropy_sdk import (
-        ApiClient,
-        AuthApi,
-        Configuration,
-        PlatformApi,
-        ProvidersApi,
-    )
+    from syntropy_sdk import ApiClient, AuthApi, Configuration, PlatformApi
     from syntropy_sdk.exceptions import ApiException, SyntropyError
     from syntropy_sdk.utils import MAX_QUERY_FIELD_SIZE, BatchedRequest
     from syntropynac.configure import configure_network
