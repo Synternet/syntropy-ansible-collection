@@ -175,7 +175,7 @@ def main():
             if not keys:
                 module.exit_json(**result)
             if not module.check_mode:
-                api.platform_api_key_delete(keys[0]["api_key_id"])
+                api.platform_api_key_destroy(keys[0]["api_key_id"])
                 result["changed"] = True
     except ApiException:
         result["error"] = "Failure"
