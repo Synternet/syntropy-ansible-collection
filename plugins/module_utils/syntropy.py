@@ -48,7 +48,3 @@ def get_auth_api(api_url=None, api_key=None):
 
 def get_platform_api(api_url=None, api_key=None):
     return PlatformApi(get_api_client(api_url, api_key))
-
-
-def get_providers_api(api_url=None, api_key=None):
-    return ProvidersApi(get_api_client(api_url, api_key))

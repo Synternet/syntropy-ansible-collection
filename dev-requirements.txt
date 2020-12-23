@@ -77,8 +77,8 @@ sphinxcontrib-htmlhelp==1.0.3  # via sphinx
 sphinxcontrib-jsmath==1.0.1  # via sphinx
 sphinxcontrib-qthelp==1.0.3  # via sphinx
 sphinxcontrib-serializinghtml==1.1.4  # via sphinx
-syntropy-sdk==0.1.1       # via -r requirements.txt, syntropynac
-syntropynac==0.1.1        # via -r requirements.txt
+syntropy-sdk==0.1.2       # via -r requirements.txt, syntropynac
+syntropynac==0.1.2        # via -r requirements.txt
 toml==0.10.2              # via pre-commit, pylint, pytest
 twiggy==0.5.0             # via antsibull
 typing-extensions==3.7.4.3  # via aiohttp

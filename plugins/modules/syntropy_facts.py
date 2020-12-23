@@ -138,7 +138,6 @@ try:
         ApiException,
         BatchedRequest,
         get_platform_api,
-        get_providers_api,
     )
 except ImportError:
     pass
@@ -186,27 +185,23 @@ def main():
         )
 
     networks_filter = (
-        f"id|name:{module.params['network_name']}"
+        f"id|name:'{module.params['network_name']}'"
         if module.params["network_name"]
         else None
     )
 
     filters = []
     if module.params["endpoint_name"]:
-        filters.append(f"id|name:{module.params['endpoint_name']}")
+        filters.append(f"id|name:'{module.params['endpoint_name']}'")
     if module.params["endpoint_tags"]:
-        filters.append(
-            f"tags_names[]:{';'.join(i for i in module.params['endpoint_tags'])}"
-        )
+        escaped_tag_names = (f"'{i}'" for i in module.params["endpoint_tags"])
+        filters.append(f"tags_names[]:{';'.join(i for i in escaped_tag_names)}")
     if module.params["network_name"]:
-        filters.append(f"networks_names[]:{module.params['network_name']}")
+        filters.append(f"networks_names[]:'{module.params['network_name']}'")
     agents_filter = ",".join(filters) if filters else None
 
     try:
         api = get_platform_api(
-            api_url=module.params["api_url"], api_key=module.params["api_token"]
-        )
-        providers_api = get_providers_api(
             api_url=module.params["api_url"], api_key=module.params["api_token"]
         )
         subset = (
@@ -216,15 +211,15 @@ def main():
         )
         for fact in subset:
             if fact == "providers":
-                result["facts"][fact] = providers_api.index(
+                result["facts"][fact] = api.platform_agent_provider_index(
                     skip=module.params["skip"], take=module.params["take"]
                 )
             elif fact == "api_keys":
-                result["facts"][fact] = api.index_api_key(
+                result["facts"][fact] = api.platform_api_key_index(
                     skip=module.params["skip"], take=module.params["take"]
                 )["data"]
             elif fact == "networks":
-                result["facts"][fact] = api.index_networks(
+                result["facts"][fact] = api.platform_network_index(
                     filter=networks_filter,
                     skip=module.params["skip"],
                     take=module.params["take"],
@@ -232,20 +227,23 @@ def main():
             elif fact == "connections":
                 connections_filter = None
                 if networks_filter:
-                    networks = api.index_networks(filter=networks_filter)["data"]
+                    networks = api.platform_network_index(filter=networks_filter)[
+                        "data"
+                    ]
                     if not networks:
                         continue
                     connections_filter = (
                         f"networks[]:{';'.join(str(i['network_id']) for i in networks)}"
                     )
-                connections = api.index_connections(
+                connections = api.platform_connection_index(
                     filter=connections_filter,
                     skip=module.params["skip"],
                     take=module.params["take"],
                 )["data"]
                 ids = [connection["agent_connection_id"] for connection in connections]
                 connections_services = BatchedRequest(
-                    api.get_connection_services, max_payload_size=MAX_QUERY_FIELD_SIZE
+                    api.platform_connection_service_show,
+                    max_payload_size=MAX_QUERY_FIELD_SIZE,
                 )(ids)["data"]
                 connection_services = {
                     connection["agent_connection_id"]: connection
@@ -261,7 +259,7 @@ def main():
                     for connection in connections
                 ]
             elif fact == "endpoints":
-                agents = api.index_agents(
+                agents = api.platform_agent_index(
                     filter=agents_filter,
                     skip=module.params["skip"],
                     take=module.params["take"],
@@ -270,7 +268,7 @@ def main():
                 if not ids:
                     continue
                 agents_services = BatchedRequest(
-                    api.get_agent_services_with_subnets,
+                    api.platform_agent_service_index,
                     max_payload_size=MAX_QUERY_FIELD_SIZE,
                 )(ids)["data"]
                 agent_services = defaultdict(list)
@@ -284,7 +282,7 @@ def main():
                     for agent in agents
                 ]
             elif fact == "topology":
-                result["facts"][fact] = api.index_topology(
+                result["facts"][fact] = api.platform_network_topology(
                     skip=module.params["skip"], take=module.params["take"]
                 )["data"]
     except ApiException:

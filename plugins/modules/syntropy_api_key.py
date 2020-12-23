@@ -155,7 +155,9 @@ def main():
     )
 
     try:
-        keys = api.index_api_key(filter=f"api_key_name:{module.params['name']}")["data"]
+        keys = api.platform_api_key_index(
+            filter=f"api_key_name:'{module.params['name']}'"
+        )["data"]
 
         if module.params["state"] == "present":
             if keys:
@@ -167,13 +169,13 @@ def main():
                     "api_key_is_suspended": module.params["suspend"],
                     "api_key_valid_until": expires,
                 }
-                result["key"] = api.create_api_key(body=body)["data"][0]
+                result["key"] = api.platform_api_key_create(body=body)["data"][0]
                 result["changed"] = True
         elif module.params["state"] == "absent":
             if not keys:
                 module.exit_json(**result)
             if not module.check_mode:
-                api.delete_key(keys[0]["api_key_id"])
+                api.platform_api_key_delete(keys[0]["api_key_id"])
                 result["changed"] = True
     except ApiException:
         result["error"] = "Failure"

@@ -106,7 +106,7 @@ def main():
             "user_password": module.params["password"],
             "additionalProp1": {},
         }
-        result["token"] = auth.local(body=payload)["refresh_token"]
+        result["token"] = auth.auth_local_login(body=payload)["refresh_token"]
     except ApiException:
         result["error"] = "Failure"
         module.fail_json(
