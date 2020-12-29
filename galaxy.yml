@@ -5,7 +5,7 @@ readme: README.md
 authors:
   - Andrius Mikonis (github.com/foxis)
 description: A collection of Ansible modules to manage Syntropy networks.
-license_file: COPYING
+license_file: LICENSE
 tags:
   - syntropy
   - networking
