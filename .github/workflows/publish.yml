@@ -42,4 +42,4 @@ jobs:
     - name: Publish
       run: |
         echo "token: ${{ secrets.GALAXY_TOKEN }}" > ~/.ansible/galaxy_token
-        ansible-galaxy collection publish ./${{ env.SYNTROPY_ASSET }}
+        ansible-galaxy collection publish ./${{ env.SYNTROPY_ASSET }} --import-timeout 60
