@@ -5,7 +5,7 @@ The Ansible Syntropy Network collection includes a variety of Ansible content to
 
 ## Tested with Ansible
 
-This collection has been tested against Ansible version 2.10
+This collection has been tested against Ansible versions >=2.9.
 
 ## Supported Python versions
 
@@ -29,6 +29,13 @@ You can install this collection using Ansible Galaxy 2.10 CLI:
 ansible-galaxy collection install git@github.com:SyntropyNet/syntropy-ansible-collection.git
 ```
 
+Older versions of Ansible Galaxy CLI (>=2.9,<2.10) do not support installation from GitHub repositories, so you should first download the
+latest release either from GitHub or use the Galaxy repo like this:
+
+```sh
+ansible-galaxy collection install syntropynet.syntropy
+```
+
 The python module dependencies are not installed by `ansible-galaxy`. They can be manually installed using pip:
 
 ```sh
@@ -38,7 +45,7 @@ pip install -r requirements.txt
 or:
 
 ```sh
-pip install syntropy-sdk syntropynac pyyaml jinja2
+pip install syntropynac jinja2
 ```
 
 ## Using this collection
