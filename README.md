@@ -3,6 +3,8 @@
 # Syntropy Network collection
 The Ansible Syntropy Network collection includes a variety of Ansible content to help automate the management of Syntropy networks. This collection is maintained by the Syntropy team.
 
+More information can be found at https://docs.syntropystack.com/docs/ansible
+
 ## Tested with Ansible
 
 This collection has been tested against Ansible versions >=2.9.
