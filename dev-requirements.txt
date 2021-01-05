@@ -31,11 +31,11 @@ execnet==1.7.1            # via pytest-xdist
 filelock==3.0.12          # via virtualenv
 flake8-docstrings==1.5.0  # via -r dev-requirements.in
 flake8==3.8.4             # via flake8-docstrings
-identify==1.5.10          # via pre-commit
+identify==1.5.11          # via pre-commit
 idna==2.10                # via requests, yarl
 imagesize==1.2.0          # via sphinx
 iniconfig==1.1.1          # via pytest
-isort==5.6.4              # via pylint
+isort==5.7.0              # via pylint
 jinja2==2.11.2            # via -r requirements.txt, ansible-base, antsibull, sphinx
 lazy-object-proxy==1.4.3  # via astroid
 markupsafe==1.1.1         # via -r requirements.txt, jinja2
@@ -58,11 +58,11 @@ pygments==2.7.3           # via antsibull, sphinx
 pylint==2.6.0             # via -r dev-requirements.in
 pyparsing==2.4.7          # via packaging
 pytest-forked==1.3.0      # via pytest-xdist
-pytest-mock==3.4.0        # via -r dev-requirements.in
+pytest-mock==3.5.0        # via -r dev-requirements.in
 pytest-xdist==2.2.0       # via -r dev-requirements.in
 pytest==6.2.1             # via -r dev-requirements.in, pytest-forked, pytest-mock, pytest-xdist
 python-dateutil==2.8.1    # via -r requirements.txt, syntropy-sdk
-pytz==2020.4              # via babel
+pytz==2020.5              # via babel
 pyyaml==5.3.1             # via -r requirements.txt, ansible-base, antsibull, antsibull-changelog, pre-commit, syntropynac, yamllint
 requests==2.25.1          # via sphinx
 rstcheck==3.3.1           # via -r dev-requirements.in, antsibull, antsibull-changelog
@@ -70,7 +70,7 @@ semantic-version==2.8.5   # via antsibull, antsibull-changelog
 sh==1.14.1                # via antsibull
 six==1.15.0               # via -r requirements.txt, astroid, cryptography, python-dateutil, syntropy-sdk, twiggy, virtualenv
 snowballstemmer==2.0.0    # via pydocstyle, sphinx
-sphinx==3.4.0             # via antsibull
+sphinx==3.4.2             # via antsibull
 sphinxcontrib-applehelp==1.0.2  # via sphinx
 sphinxcontrib-devhelp==1.0.2  # via sphinx
 sphinxcontrib-htmlhelp==1.0.3  # via sphinx
@@ -78,7 +78,7 @@ sphinxcontrib-jsmath==1.0.1  # via sphinx
 sphinxcontrib-qthelp==1.0.3  # via sphinx
 sphinxcontrib-serializinghtml==1.1.4  # via sphinx
 syntropy-sdk==0.1.2       # via -r requirements.txt, syntropynac
-syntropynac==0.1.2        # via -r requirements.txt
+syntropynac==0.1.3        # via -r requirements.txt
 toml==0.10.2              # via pre-commit, pylint, pytest
 twiggy==0.5.0             # via antsibull
 typing-extensions==3.7.4.3  # via aiohttp
