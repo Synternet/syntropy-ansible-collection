@@ -1,5 +1,5 @@
 # Copyright: (c) 2020, Syntropy Network
-# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+# MIT License
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
