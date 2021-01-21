@@ -1,2 +1,0 @@
-plugins/modules validate-modules:missing-gplv3-license
-plugins/module_utils validate-modules:missing-gplv3-license

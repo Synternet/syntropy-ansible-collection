@@ -1,0 +1,5 @@
+plugins/modules/syntropy_api_key.py validate-modules:missing-gplv3-license
+plugins/modules/syntropy_facts.py validate-modules:missing-gplv3-license
+plugins/modules/syntropy_login.py validate-modules:missing-gplv3-license
+plugins/modules/syntropy_network.py validate-modules:missing-gplv3-license
+plugins/modules/syntropy_template.py validate-modules:missing-gplv3-license
