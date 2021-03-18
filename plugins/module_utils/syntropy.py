@@ -41,6 +41,7 @@ def api_getter_builder(T):
         return T(get_api_client(api_url, api_key)) if client is None else T(client)
 
 
-get_auth_api = api_getter_builder(AuthApi)
-get_api_keys_api = api_getter_builder(ApiKeysApi)
-get_platform_api = api_getter_builder(PlatformApi)
+if HAS_SDK:
+    get_auth_api = api_getter_builder(AuthApi)
+    get_api_keys_api = api_getter_builder(ApiKeysApi)
+    get_platform_api = api_getter_builder(PlatformApi)
