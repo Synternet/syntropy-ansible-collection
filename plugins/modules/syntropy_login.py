@@ -105,7 +105,7 @@ def main():
             "user_email": module.params["username"],
             "user_password": module.params["password"],
         }
-        result["token"] = auth.auth_external_login(body=payload)["refresh_token"]
+        result["token"] = auth.auth_external_login(body=payload).access_token
     except ApiException:
         result["error"] = "Failure"
         module.fail_json(

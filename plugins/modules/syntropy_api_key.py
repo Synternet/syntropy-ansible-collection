@@ -85,9 +85,9 @@ api_key:
             "user_id": 0,
             "api_key_secret": "string",
             "api_key_name": "string",
+            "api_key_id": 0,
             "api_key_is_suspended": true,
-            "api_key_valid_until": "string",
-            "additionalProp1": {}
+            "api_key_valid_until": "string"
         }
 """
 
@@ -101,7 +101,7 @@ try:
         HAS_SDK,
         SDK_IMP_ERR,
         ApiException,
-        get_platform_api,
+        get_api_keys_api,
     )
 except ImportError:
     pass
@@ -150,18 +150,16 @@ def main():
     except ValueError:
         module.fail_json(msg="Expires must be an ISO formatted date time")
 
-    api = get_platform_api(
+    api = get_api_keys_api(
         api_url=module.params["api_url"], api_key=module.params["api_token"]
     )
 
     try:
-        keys = api.platform_api_key_index(
-            filter=f"api_key_name:'{module.params['name']}'"
-        )["data"]
+        keys = api.index_api_key(filter=f"api_key_name:'{module.params['name']}'").data
 
         if module.params["state"] == "present":
             if keys:
-                result["key"] = keys[0]
+                result["key"] = keys[0].to_dict()
                 module.exit_json(**result)
             if not module.check_mode:
                 body = {
@@ -169,13 +167,13 @@ def main():
                     "api_key_is_suspended": module.params["suspend"],
                     "api_key_valid_until": expires,
                 }
-                result["key"] = api.platform_api_key_create(body=body)["data"][0]
+                result["key"] = api.create_api_key(body=body).data.to_dict()
                 result["changed"] = True
         elif module.params["state"] == "absent":
             if not keys:
                 module.exit_json(**result)
-            if not module.check_mode:
-                api.platform_api_key_destroy(keys[0]["api_key_id"])
+            if not module.check_mode and keys:
+                api.destroy_api_key(keys[0].api_key_id)
                 result["changed"] = True
     except ApiException:
         result["error"] = "Failure"

@@ -136,6 +136,7 @@ try:
         SDK_IMP_ERR,
         ApiException,
         BatchedRequest,
+        get_api_keys_api,
         get_platform_api,
     )
 except ImportError:
@@ -203,6 +204,8 @@ def main():
         api = get_platform_api(
             api_url=module.params["api_url"], api_key=module.params["api_token"]
         )
+        keys_api = get_api_keys_api(client=api.api_client)
+
         subset = (
             module.params["gather_subset"]
             if isinstance(module.params["gather_subset"], list)
@@ -214,9 +217,12 @@ def main():
                     skip=module.params["skip"], take=module.params["take"]
                 )
             elif fact == "api_keys":
-                result["facts"][fact] = api.platform_api_key_index(
-                    skip=module.params["skip"], take=module.params["take"]
-                )["data"]
+                result["facts"][fact] = [
+                    key.to_dict()
+                    for key in keys_api.index_api_key(
+                        skip=module.params["skip"], take=module.params["take"]
+                    ).data
+                ]
             elif fact == "networks":
                 result["facts"][fact] = api.platform_network_index(
                     filter=networks_filter,
