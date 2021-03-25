@@ -82,7 +82,7 @@ syntropynac==0.1.7        # via -r requirements.txt
 toml==0.10.2              # via pre-commit, pylint, pytest
 twiggy==0.5.0             # via antsibull
 typing-extensions==3.7.4.3  # via aiohttp, pydantic
-urllib3==1.26.3           # via -r requirements.txt, requests, syntropy-sdk
+urllib3==1.26.4           # via -r requirements.txt, requests, syntropy-sdk
 virtualenv==20.4.2        # via pre-commit
 voluptuous==0.12.1        # via -r dev-requirements.in
 wrapt==1.12.1             # via astroid
