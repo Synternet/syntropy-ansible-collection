@@ -1,0 +1,155 @@
+---
+- name: Install pre-req
+  dnf:
+    name: oracle-epel-release-el8
+    state: latest
+  when:
+    ansible_distribution == 'OracleLinux' and ansible_distribution_major_version >='8'
+  tags:
+  - oracle
+  - install_prereq
+    
+- name: Install additional packages
+  dnf:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - tmux
+    - iperf3
+    - iptraf
+    - smartmontools
+    - python3-pip
+    - python3-setuptools
+    - wireshark
+    - tcpdump
+    - python3-libselinux
+    - bind-utils
+    - dnf-utils
+    - zip
+    - unzip
+  tags:
+  - oracle
+  - install_packages
+
+- name: Install selinux python library
+  dnf:
+    name: python3-libselinux
+    state: latest
+  tags:
+  - oracle
+  - install_pyselinux
+
+- name: Install Wireguard
+  dnf:
+    name: oraclelinux-developer-release-el8
+    state: latest
+  tags:
+  - oracle
+  - install_wireguard
+
+- name: Disable old ol8_developer
+  command: dnf config-manager --disable ol8_developer
+  tags:
+  - oracle
+  - disable_ol8
+
+- name: Enable UEKR6
+  command: dnf config-manager --enable ol8_developer_UEKR6
+  tags:
+  - oracle
+  - enable_uekr6
+
+- name: Save opt
+  command: dnf config-manager --save --setopt=ol8_developer_UEKR6.includepkgs='wireguard-tools*'
+  tags:
+  - oracle
+  - save_opt
+
+- name: Install wireguard-tools
+  dnf:
+    name: wireguard-tools
+    state: latest
+  tags:
+  - oracle
+  - wireguard_install
+
+- name: Add Docker Repo
+  command: dnf config-manager --add-repo='https://download.docker.com/linux/centos/docker-ce.repo'
+  tags:
+  - oracle
+  - docker_repo
+
+- name: Install Docker-ce
+  dnf:
+    name: docker-ce
+    state: latest
+  tags:
+  - oracle
+  - install_docker
+
+- name: Install docker pip3
+  pip:
+    name: docker
+    executable: pip3.6
+  tags:
+  - oracle
+  - docker-pip
+
+
+- name: Make sure that docker is enabled
+  ansible.builtin.service:
+    name: docker
+    enabled: yes
+    state: restarted
+  tags:
+  - oracle
+  - docker_enable
+
+- name: Create a network with custom IPAM config
+  docker_network:
+    name: syntropynet
+    ipam_options:
+      subnet: '{{subnet}}'
+  tags:
+  - oracle
+  - ipam_network
+
+- name: pull an image
+  docker_image:
+    name: syntropynet/agent:stable
+  tags:
+  - oracle
+  - docker_image
+  
+- name: Stop and remove old container
+  docker_container:
+    name: syntropy-agent
+    state: absent
+    image: syntropy-agent
+  tags:
+  - oracle
+  - docker_stopr
+
+- name: Create Syntropy agent container and connect to network
+  docker_container:
+    name: syntropy-agent
+    restart_policy: unless-stopped
+    image: syntropynet/agent:stable
+    network_mode: "host"
+    purge_networks: no
+    env:
+      SYNTROPY_API_KEY: '{{ api_key }}'
+      SYNTROPY_NETWORK_API: docker
+      SYNTROPY_PROVIDER: '{{ cloud_provider }}'
+      SYNTROPY_TAGS: '{{ syntropy_tag }}'
+      SYNTROPY_AGENT_NAME: '{{ syntropy_tag }}'
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    devices:
+    - "/dev/net/tun:/dev/net/tun"
+    capabilities:
+    - net_admin
+    - sys_module
+  tags:
+  - oracle
+  - docker_syntropy_agent

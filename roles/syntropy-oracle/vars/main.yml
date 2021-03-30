@@ -1,0 +1,5 @@
+---
+api_key: "{{ '****************************' }}"
+cloud_provider: "5"
+syntropy_tag: "{{ ansible_hostname }}"
+subnet: "172.2.{{ play_hosts.index(inventory_hostname) | int + 1 }}.0/24"
