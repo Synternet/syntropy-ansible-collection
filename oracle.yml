@@ -1,7 +1,0 @@
----
-- hosts: all
-  user: root
-
-  roles:
-  - role: syntropy-oracle
-    tags: oracle
