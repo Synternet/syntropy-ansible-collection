@@ -6,7 +6,7 @@ Machine network traffic is being handled by Syntropy Agent connection - secure e
 
 Syntropy agent is deployed as a docker container.
 
-<center> <img src="img/syntropy_agent_oracle.png"> </center>
+<p align="center"> <img src="img/syntropy_agent_oracle.png"> </p>
 
 
 ## What is Syntropy?
@@ -68,9 +68,11 @@ Update the variables in roles/syntropy-oracle/vars/main.yml:
 Execute this command in your main Ansible directory:
 ```
 ansible-playbook roles/roles/syntropy-oracle/tasks/main.yml
+```
 
-or if you wish to execute a specific step you can use --tags option for example
+If you need to execute a specific step of this role you can use --tags option
 
+```
 ansible-playbook roles/roles/syntropy-oracle/tasks/main.yml --tags docker_enable
 ```
 
