@@ -51,10 +51,10 @@ Detail instruction on how to get agent token: https://docs.syntropystack.com/doc
 Update the variables in roles/syntropy-oracle/vars/main.yml:
 
 - Deploy Syntropy agent:
-  - api_key - Agent token for Syntropy Platform web UI
-  - cloud_provider - https://docs.syntropystack.com/docs/syntropy-agent-variables for a list of providers
-  - syntropy_tag - Your machine hostname
-  - subnet - Auto-generated subnet for your docker app.
+  - api_key - Agent token for Syntropy Platform web UI.
+  - cloud_provider - https://docs.syntropystack.com/docs/syntropy-agent-variables for a list of providers.
+  - syntropy_tag - Your machine hostname.
+  - subnet - Auto-generated subnet for Docker network.
 
 
 ### Step3 - run playbook
