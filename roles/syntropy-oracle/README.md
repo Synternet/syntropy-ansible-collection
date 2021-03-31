@@ -1,6 +1,6 @@
 # Syntropy agent automatic installation with Ansible on Oracle Linux 8
 
-This Ansible role is for the automated installation of Syntropy client for Oracle Linux 8 Distribution.
+This Ansible role is for automated installation of Syntropy client for Oracle Linux 8 Distribution.
 
 <p align="center"> <img src="img/syntropy_agent_oracle.png"> </p>
 
