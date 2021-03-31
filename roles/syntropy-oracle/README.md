@@ -78,5 +78,5 @@ https://platform.syntropystack.com
 
 Author:
 
-Vytenis Jakubauskas
+Vytenis Jakubauskas<br>
 Vytenis@noia.network
