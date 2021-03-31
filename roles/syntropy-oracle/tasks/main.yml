@@ -11,40 +11,13 @@
     
 - name: Install additional packages
   dnf:
-    name: '{{ item }}'
+    name: "{{ item }}"
     state: latest
-  with_items:
-    - iperf3
-    - iptraf
-    - smartmontools
-    - python3-pip
-    - python3-setuptools
-    - wireshark
-    - tcpdump
-    - python3-libselinux
-    - bind-utils
-    - dnf-utils
-    - zip
-    - unzip
+  loop: 
+  - "{{ packages }}"
   tags:
   - oracle
   - install_packages
-
-- name: Install selinux python library
-  dnf:
-    name: python3-libselinux
-    state: latest
-  tags:
-  - oracle
-  - install_pyselinux
-
-- name: Install Wireguard
-  dnf:
-    name: oraclelinux-developer-release-el8
-    state: latest
-  tags:
-  - oracle
-  - install_wireguard
 
 - name: Disable old ol8_developer
   command: dnf config-manager --disable ol8_developer

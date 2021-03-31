@@ -26,8 +26,6 @@ iptraf - IP LAN monitor that generates various network statistics including TCP 
 smartmontools - Additional package for failure analysis { smartctl & smartd }
 python3-pip -> Allows the use of pip3 package.
 python3-setuptools - Extensions to the python-distutils for large or complex distributions, required for further usage of python libraries within Syntropy agent.
-wireshark - Packet analyzer for failure analysis.
-tcpdump - Packet analyzer for failure analysis.
 python3-libselinux - Required lib for Docker & Ansible.
 bind-utils - Bind-utils contains a collection of utilities for querying DNS (Domain Name System) name servers to find out information about Internet hosts.
 dnf-utils - classic YUM utilities implemented as CLI shims on top of DNF.

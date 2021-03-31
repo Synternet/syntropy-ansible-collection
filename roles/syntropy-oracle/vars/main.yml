@@ -1,5 +1,17 @@
 ---
-api_key: "{{ '****************************' }}"
+api_key: "{{ 'Hwg1dBtZPXah0jQPcHaAh98afjRsKAvz' }}"
 cloud_provider: "5"
 syntropy_tag: "{{ ansible_hostname }}"
 subnet: "172.2.{{ play_hosts.index(inventory_hostname) | int + 1 }}.0/24"
+packages:
+    - iperf3
+    - iptraf
+    - smartmontools
+    - python3-pip
+    - python3-setuptools
+    - python3-libselinux
+    - bind-utils
+    - dnf-utils
+    - zip
+    - unzip
+    - oraclelinux-developer-release-el8
