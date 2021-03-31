@@ -68,10 +68,28 @@ Update the variables in roles/syntropy-oracle/vars/main.yml:
 
 
 ### Step3 - run playbook
+
+Inside oracle.yml file:
+```
+---
+- hosts: all { Defines that you can use this on any host you want }
+  user: root { Defines the username with which Ansible connects to the remote host }
+
+  roles:
+  - role: syntropy-oracle { Defines the role that will be used if this playbook is executed }
+    tags: oracle { Defines the tag of playbook steps. You can find more tags in the main.yml playbook itself. }
+```
+
+
 Execute this command in your main Ansible directory:
 ```
 ansible-playbook oracle.yml
+
+or if you wish to execute a specific step you can use --tags option for example
+
+ansible-playbook oracle.yml --tags docker_enable
 ```
+
 
 Visit the Platform WEB UI to check you network: 
 
