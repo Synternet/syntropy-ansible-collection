@@ -22,7 +22,7 @@ Name | Description
 [syntropynet.syntropy.syntropy_api_key](docs/syntropy_api_key_module.rst)|Manages Syntropy Stack API Keys for endpoint agent.
 [syntropynet.syntropy.syntropy_network](docs/syntropy_network_module.rst)|Manages Syntropy Stack networks and connections.
 [syntropynet.syntropy.syntropy_template](docs/syntropy_template_module.rst)|Manages Syntropy Stack networks and connections using configuration template.
-[syntropynet.syntropy.syntropy_oracle_agent](roles/syntropy-oracle/README.md)|Creates an Ansible role to deploy Syntropy Agent on Oracle Linux 8.
+[syntropynet.syntropy.syntropy_oracle_agent](roles/syntropy-oracle/README.md)| Ansible role to deploy a Syntropy Agent on Oracle Linux 8.
 
 ## Installing this collection
 
