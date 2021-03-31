@@ -1,4 +1,4 @@
-# Syntropy agent automatic installation with Ansible on Oracle Linux 8
+# Syntropy agent automatic installation with Ansible for Oracle Linux 8
 
 This Ansible role is for automated installation of Syntropy client for Oracle Linux 8 Distribution.
 
@@ -39,8 +39,8 @@ zip & unzip - used to compress & decompress the files to reduce file size.
 Get it running by 3 steps explained below:
 
 1) Register for Syntropy account and get API key with API token
-2) Update variables in roles/syntropy-oracle/vars/main.yml
-3) Run playbook main.yml
+2) Update variables in ../vars/main.yml
+3) Run playbook ../tasks/main.yml
 
 ### Step1 - get Agent token
 
