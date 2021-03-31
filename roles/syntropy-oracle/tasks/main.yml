@@ -14,7 +14,6 @@
     name: '{{ item }}'
     state: latest
   with_items:
-    - tmux
     - iperf3
     - iptraf
     - smartmontools
