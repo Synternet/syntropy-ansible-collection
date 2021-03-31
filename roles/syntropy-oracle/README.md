@@ -1,10 +1,8 @@
 # Syntropy agent automatic installation with Ansible on Oracle Linux 8
 
-This Ansible role is for the automated installation of Syntropy client for Oracle Linux 8 Distribution. This playbook allows to automatically connect to a Syntropy network.
-Network traffic is being handled by Syntropy Agent connection - secure encrypted tunnels based on Wireguard. Syntropy agent is deployed as Docker container.
+This Ansible role is for the automated installation of Syntropy client for Oracle Linux 8 Distribution.
 
 <p align="center"> <img src="img/syntropy_agent_oracle.png"> </p>
-
 
 ## What is Syntropy?
 
