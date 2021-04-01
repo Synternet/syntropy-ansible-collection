@@ -1,6 +1,6 @@
 ![Tests](https://github.com/SyntropyNet/syntropy-ansible-collection/workflows/Tests/badge.svg)
 
-# Syntropy Network collection
+# Syntropy Network Ansible collection
 The Ansible Syntropy Network collection includes a variety of Ansible content to help automate the management of Syntropy networks. This collection is maintained by the Syntropy team.
 
 More information can be found at https://docs.syntropystack.com/docs/ansible
@@ -22,6 +22,7 @@ Name | Description
 [syntropynet.syntropy.syntropy_api_key](docs/syntropy_api_key_module.rst)|Manages Syntropy Stack API Keys for endpoint agent.
 [syntropynet.syntropy.syntropy_network](docs/syntropy_network_module.rst)|Manages Syntropy Stack networks and connections.
 [syntropynet.syntropy.syntropy_template](docs/syntropy_template_module.rst)|Manages Syntropy Stack networks and connections using configuration template.
+[syntropynet.syntropy.syntropy_oracle_agent](roles/syntropy-oracle/README.md)| Ansible role to deploy a Syntropy Agent on Oracle Linux 8.
 
 ## Installing this collection
 
