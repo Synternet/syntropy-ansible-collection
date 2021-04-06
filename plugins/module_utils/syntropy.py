@@ -40,6 +40,8 @@ def api_getter_builder(T):
     def get(api_url=None, api_key=None, client=None):
         return T(get_api_client(api_url, api_key)) if client is None else T(client)
 
+    return get
+
 
 if HAS_SDK:
     get_auth_api = api_getter_builder(AuthApi)
