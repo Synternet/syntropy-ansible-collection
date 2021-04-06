@@ -9,7 +9,7 @@ import traceback
 
 SDK_IMP_ERR = None
 try:
-    from syntropy_sdk import ApiClient, AuthApi, Configuration, PlatformApi
+    from syntropy_sdk import ApiClient, ApiKeysApi, AuthApi, Configuration, PlatformApi
     from syntropy_sdk.exceptions import ApiException, SyntropyError
     from syntropy_sdk.utils import MAX_QUERY_FIELD_SIZE, BatchedRequest
     from syntropynac.configure import configure_network
@@ -36,9 +36,14 @@ def get_api_client(api_url=None, api_key=None):
     return ApiClient(config)
 
 
-def get_auth_api(api_url=None, api_key=None):
-    return AuthApi(get_api_client(api_url, api_key))
+def api_getter_builder(T):
+    def get(api_url=None, api_key=None, client=None):
+        return T(get_api_client(api_url, api_key)) if client is None else T(client)
+
+    return get
 
 
-def get_platform_api(api_url=None, api_key=None):
-    return PlatformApi(get_api_client(api_url, api_key))
+if HAS_SDK:
+    get_auth_api = api_getter_builder(AuthApi)
+    get_api_keys_api = api_getter_builder(ApiKeysApi)
+    get_platform_api = api_getter_builder(PlatformApi)
