@@ -60,13 +60,13 @@ Update the variables in roles/syntropy-oracle/vars/main.yml:
 
 Execute this command in your main Ansible directory:
 ```
-ansible-playbook roles/roles/syntropy-oracle/tasks/main.yml
+ansible-playbook roles/roles/syntropy_oracle/tasks/main.yml
 ```
 
 If you need to execute a specific step of this role you can use --tags option
 
 ```
-ansible-playbook roles/roles/syntropy-oracle/tasks/main.yml --tags docker_enable
+ansible-playbook roles/roles/syntropy_oracle/tasks/main.yml --tags docker_enable
 ```
 
 
