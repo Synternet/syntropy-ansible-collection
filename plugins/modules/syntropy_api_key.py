@@ -155,7 +155,7 @@ def main():
     )
 
     try:
-        keys = api.index_api_key(filter=f"api_key_name:'{module.params['name']}'").data
+        keys = api.get_api_key(filter=f"api_key_name:'{module.params['name']}'").data
 
         if module.params["state"] == "present":
             if keys:
@@ -173,7 +173,7 @@ def main():
             if not keys:
                 module.exit_json(**result)
             if not module.check_mode and keys:
-                api.destroy_api_key(keys[0].api_key_id)
+                api.delete_api_key(keys[0].api_key_id)
                 result["changed"] = True
     except ApiException:
         result["error"] = "Failure"

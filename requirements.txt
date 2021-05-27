@@ -6,13 +6,13 @@
 #
 certifi==2020.12.5
     # via syntropy-sdk
-click==7.1.2
+click==8.0.1
     # via syntropynac
 dataclasses==0.6
     # via syntropynac
-jinja2==2.11.3
+jinja2==3.0.1
     # via -r requirements.in
-markupsafe==1.1.1
+markupsafe==2.0.1
     # via jinja2
 python-dateutil==2.8.1
     # via syntropy-sdk
@@ -20,17 +20,17 @@ pyyaml==5.4.1
     # via
     #   -r requirements.in
     #   syntropynac
-six==1.15.0
+six==1.16.0
     # via
     #   python-dateutil
     #   syntropy-sdk
-syntropy-sdk==0.1.6
+syntropy-sdk==0.1.8
     # via
     #   -r requirements.in
     #   syntropynac
 syntropynac==0.1.8
     # via -r requirements.in
-urllib3==1.26.4
+urllib3==1.26.5
     # via syntropy-sdk
 
 # The following packages are considered to be unsafe in a requirements file:

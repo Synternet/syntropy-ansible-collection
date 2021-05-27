@@ -219,7 +219,7 @@ def main():
             elif fact == "api_keys":
                 result["facts"][fact] = [
                     key.to_dict()
-                    for key in keys_api.index_api_key(
+                    for key in keys_api.get_api_key(
                         skip=module.params["skip"], take=module.params["take"]
                     ).data
                 ]

@@ -21,7 +21,6 @@ Modules
 
 * :ref:`syntropy_api_key <ansible_collections.syntropynet.syntropy.syntropy_api_key_module>` -- Manages API keys on Syntropy Platform.
 * :ref:`syntropy_facts <ansible_collections.syntropynet.syntropy.syntropy_facts_module>` -- Gathers Syntropy Stack Facts
-* :ref:`syntropy_login <ansible_collections.syntropynet.syntropy.syntropy_login_module>` -- Logins to Syntropy Platform
 * :ref:`syntropy_network <ansible_collections.syntropynet.syntropy.syntropy_network_module>` -- Manages networks and connections on Syntropy Platform.
 * :ref:`syntropy_template <ansible_collections.syntropynet.syntropy.syntropy_template_module>` -- Manages networks and connections on Syntropy Platform.
 

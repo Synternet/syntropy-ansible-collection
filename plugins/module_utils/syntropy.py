@@ -11,6 +11,7 @@ SDK_IMP_ERR = None
 try:
     from syntropy_sdk import ApiClient, ApiKeysApi, AuthApi, Configuration, PlatformApi
     from syntropy_sdk.exceptions import ApiException, SyntropyError
+    from syntropy_sdk.models import AccessTokenData
     from syntropy_sdk.utils import MAX_QUERY_FIELD_SIZE, BatchedRequest
     from syntropynac.configure import configure_network
     from syntropynac.exceptions import ConfigureNetworkError
@@ -27,12 +28,26 @@ class EnvVars:
     TOKEN = "SYNTROPY_API_TOKEN"
 
 
+def login_with_access_token(url, token):
+    config = Configuration()
+    config.host = url
+    api = ApiClient(config)
+    auth = AuthApi(api)
+
+    body = AccessTokenData(access_token=token)
+    try:
+        response = auth.auth_access_token_login(body)
+        return response.access_token
+    finally:
+        del auth
+        del api
+
+
 def get_api_client(api_url=None, api_key=None):
     config = Configuration()
     config.host = api_url if api_url else os.environ.get(EnvVars.API_URL)
-    config.api_key["Authorization"] = (
-        api_key if api_key else os.environ.get(EnvVars.TOKEN)
-    )
+    access_token = api_key if api_key else os.environ.get(EnvVars.TOKEN)
+    config.api_key["Authorization"] = login_with_access_token(config.host, access_token)
     return ApiClient(config)
 
 

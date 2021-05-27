@@ -1,5 +1,5 @@
 -r requirements.txt
-ansible
+ansible==2.10
 pre-commit
 antsibull
 click

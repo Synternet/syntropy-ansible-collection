@@ -17,7 +17,6 @@ This collection supports Python 3.6+ only.
 
 Name | Description
 --- | ---
-[syntropynet.syntropy.syntropy_login](docs/syntropy_login_module.rst)|Logs in to Syntropy Stack API and returns `api_token`.
 [syntropynet.syntropy.syntropy_facts](docs/syntropy_facts_module.rst)|Gathers facts from Syntropy Stack.
 [syntropynet.syntropy.syntropy_api_key](docs/syntropy_api_key_module.rst)|Manages Syntropy Stack API Keys for endpoint agent.
 [syntropynet.syntropy.syntropy_network](docs/syntropy_network_module.rst)|Manages Syntropy Stack networks and connections.
@@ -61,20 +60,14 @@ export SYNTROPY_API_TOKEN='{API Authorization token}'
 ```
 
 Also, it is possible to override these environment variables by specifying `api_url` and/or `api_token` module options.
-The most convenient way to do that is to specify `SYNTROPY_API_SERVER` in the environment variable and provide `api_token` by using `syntropy_login` module.
+The most convenient way to do that is to specify `SYNTROPY_API_SERVER` in the environment variable and provide `api_token`.
 
-You can either call modules by their Fully Qualified Collection Namespace (FQCN), such as `syntropynet.syntropy.syntropy_login`, or you can call modules by their short name if you list the `syntropynet.syntropy` collection in the playbook's collections keyword:
+You can either call modules by their Fully Qualified Collection Namespace (FQCN), such as `syntropynet.syntropy.syntropy_facts`, or you can call modules by their short name if you list the `syntropynet.syntropy` collection in the playbook's collections keyword:
 
 ```yaml
--   name: Login
-    syntropynet.syntropy.syntropy_login:
-        username: AUserName
-        password: APassword
-    register: api_token
-
 -   name: Gather facts
     syntropynet.syntropy.syntropy_facts:
-        api_token: '{{ api_token.token }}'
+        api_token: '{{ api_token }}'
     register: facts
 
 - name: Dump facts output
