@@ -14,33 +14,45 @@ def test_imports():
 
 
 def test_get_api_client():
-    with mock.patch.dict(
-        os.environ,
-        {
-            syntropy.EnvVars.API_URL: "server",
-            syntropy.EnvVars.TOKEN: "token",
-        },
-    ):
-        api = syntropy.get_api_client()
-        assert isinstance(api, sdk.ApiClient)
-        assert api.configuration.host == "server"
-        assert api.configuration.api_key["Authorization"] == "token"
-        del api
+    with mock.patch(
+        "ansible_collections.syntropynet.syntropy.plugins.module_utils.syntropy.login_with_access_token",
+        autospec=True,
+        returns="jwt token",
+    ) as login_mock:
+        with mock.patch.dict(
+            os.environ,
+            {
+                syntropy.EnvVars.API_URL: "server",
+                syntropy.EnvVars.TOKEN: "token",
+            },
+        ):
+            api = syntropy.get_api_client()
+            assert isinstance(api, sdk.ApiClient)
+            assert api.configuration.host == "server"
+            assert api.configuration.api_key["Authorization"] == "jwt token"
+            del api
+            login_mock.assert_called_once_with("server", "token")
 
 
 def test_get_api_client__params():
-    with mock.patch.dict(
-        os.environ,
-        {
-            syntropy.EnvVars.API_URL: "server",
-            syntropy.EnvVars.TOKEN: "token",
-        },
+    with mock.patch(
+        "ansible_collections.syntropynet.syntropy.plugins.module_utils.syntropy.login_with_access_token",
+        autospec=True,
+        returns="jwt token",
     ):
-        api = syntropy.get_api_client("a server", "a token")
-        assert isinstance(api, sdk.ApiClient)
-        assert api.configuration.host == "a server"
-        assert api.configuration.api_key["Authorization"] == "a token"
-        del api
+        with mock.patch.dict(
+            os.environ,
+            {
+                syntropy.EnvVars.API_URL: "server",
+                syntropy.EnvVars.TOKEN: "token",
+            },
+        ):
+            api = syntropy.get_api_client("a server", "a token")
+            assert isinstance(api, sdk.ApiClient)
+            assert api.configuration.host == "a server"
+            assert api.configuration.api_key["Authorization"] == "jwt token"
+            del api
+            login_mock.assert_called_once_with("server", "a token")
 
 
 def test_auth_api():
