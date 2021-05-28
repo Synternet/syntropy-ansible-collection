@@ -39,7 +39,7 @@ def test_get_api_client__params():
         "ansible_collections.syntropynet.syntropy.plugins.module_utils.syntropy.login_with_access_token",
         autospec=True,
         returns="jwt token",
-    ):
+    ) as login_mock:
         with mock.patch.dict(
             os.environ,
             {
