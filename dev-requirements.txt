@@ -12,7 +12,7 @@ alabaster==0.7.12
     # via sphinx
 ansible-base==2.10.10
     # via ansible
-ansible==2.10
+ansible==2.10.7
     # via -r dev-requirements.in
 antsibull-changelog==0.10.0
     # via
