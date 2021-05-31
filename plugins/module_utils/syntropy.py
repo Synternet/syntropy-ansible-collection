@@ -12,7 +12,11 @@ try:
     from syntropy_sdk import ApiClient, ApiKeysApi, AuthApi, Configuration, PlatformApi
     from syntropy_sdk.exceptions import ApiException, SyntropyError
     from syntropy_sdk.models import AccessTokenData
-    from syntropy_sdk.utils import MAX_QUERY_FIELD_SIZE, BatchedRequest
+    from syntropy_sdk.utils import (
+        MAX_QUERY_FIELD_SIZE,
+        BatchedRequest,
+        login_with_access_token,
+    )
     from syntropynac.configure import configure_network
     from syntropynac.exceptions import ConfigureNetworkError
     from syntropynac.fields import ConfigFields
@@ -26,21 +30,6 @@ except ImportError:
 class EnvVars:
     API_URL = "SYNTROPY_API_SERVER"
     TOKEN = "SYNTROPY_API_TOKEN"
-
-
-def login_with_access_token(url, token):
-    config = Configuration()
-    config.host = url
-    api = ApiClient(config)
-    auth = AuthApi(api)
-
-    body = AccessTokenData(access_token=token)
-    try:
-        response = auth.auth_access_token_login(body)
-        return response.access_token
-    finally:
-        del auth
-        del api
 
 
 def get_api_client(api_url=None, api_key=None):
