@@ -14,7 +14,7 @@ ansible-base==2.10.13
     # via ansible
 ansible-pygments==0.1.0
     # via antsibull
-ansible==2.10
+ansible==2.10.7
     # via -r dev-requirements.in
 antsibull-changelog==0.12.0
     # via
