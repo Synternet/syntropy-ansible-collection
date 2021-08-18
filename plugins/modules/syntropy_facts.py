@@ -16,7 +16,7 @@ module: syntropy_facts
 version_added: "0.1.0"
 short_description: Gathers Syntropy Stack Facts
 description:
-    - This module gathers facts about providers, api-keys, networks, connections, endpoints, topology.
+    - This module gathers facts about providers, api-keys, connections, endpoints.
 author:
     - Andrius Mikonis (@foxis)
 requirements: ["syntropy-sdk"]
@@ -35,10 +35,6 @@ options:
         required: false
         default: null
         type: str
-    network_name:
-        description: specifies network name to filter facts by.
-        required: false
-        type: str
     endpoint_name: 
         description: specifies endpoint name to filter facts by.
         required: false
@@ -50,9 +46,9 @@ options:
         type: list
     gather_subset:
         description: A subset of facts to gather.
-        choices: ['providers', 'api_keys', 'endpoints', 'networks', 'connections', 'topology']
+        choices: ['providers', 'api_keys', 'endpoints', 'connections']
         required: false
-        default: ['providers', 'networks', 'connections']
+        default: ['providers', 'connections']
         elements: str
         type: list
     skip: 
@@ -75,7 +71,7 @@ EXAMPLES = """
 -   name: Retrieve topology
     syntropy_facts:
         endpoint_tags: ['dns', 'iot']
-        gather_subset: ['endpoints', 'networks', 'topology']
+        gather_subset: ['endpoints']
     register: facts_subset_output
 """  # NOQA
 
@@ -107,21 +103,11 @@ facts:
             type: list
             elements: dict
             returned: When endpoints is present in gather_subset.
-        networks:
-            description: A list of configured networks.
-            type: list
-            elements: dict
-            returned: When networks is present in gather_subset.
         connections:
             description: A list of configured connections.
             type: list
             elements: dict
             returned: When connections is present in gather_subset.
-        topology:
-            description: A list of network topology objects.
-            type: list
-            elements: dict
-            returned: When topology is present in gather_subset.
 """
 
 import traceback
@@ -151,20 +137,17 @@ def main():
     argument_spec = {
         "api_url": dict(type="str", default=None),
         "api_token": dict(type="str", default=None, no_log=True),
-        "network_name": dict(type="str", default=None),
         "endpoint_name": dict(type="str", default=None),
         "endpoint_tags": dict(type="list", elements="str", default=None),
         "gather_subset": dict(
-            default=["providers", "networks", "connections"],
+            default=["providers", "connections"],
             type="list",
             elements="str",
             choices=[
                 "providers",
                 "api_keys",
                 "endpoints",
-                "networks",
                 "connections",
-                "topology",
             ],
         ),
         "skip": dict(type="int", default=0),
@@ -184,20 +167,12 @@ def main():
             msg=missing_required_lib("syntropy-sdk"), exception=SDK_IMP_ERR
         )
 
-    networks_filter = (
-        f"id|name:'{module.params['network_name']}'"
-        if module.params["network_name"]
-        else None
-    )
-
     filters = []
     if module.params["endpoint_name"]:
         filters.append(f"id|name:'{module.params['endpoint_name']}'")
     if module.params["endpoint_tags"]:
         escaped_tag_names = (f"'{i}'" for i in module.params["endpoint_tags"])
         filters.append(f"tags_names[]:{';'.join(i for i in escaped_tag_names)}")
-    if module.params["network_name"]:
-        filters.append(f"networks_names[]:'{module.params['network_name']}'")
     agents_filter = ",".join(filters) if filters else None
 
     try:
@@ -223,25 +198,8 @@ def main():
                         skip=module.params["skip"], take=module.params["take"]
                     ).data
                 ]
-            elif fact == "networks":
-                result["facts"][fact] = api.platform_network_index(
-                    filter=networks_filter,
-                    skip=module.params["skip"],
-                    take=module.params["take"],
-                )["data"]
             elif fact == "connections":
-                connections_filter = None
-                if networks_filter:
-                    networks = api.platform_network_index(filter=networks_filter)[
-                        "data"
-                    ]
-                    if not networks:
-                        continue
-                    connections_filter = (
-                        f"networks[]:{';'.join(str(i['network_id']) for i in networks)}"
-                    )
                 connections = api.platform_connection_index(
-                    filter=connections_filter,
                     skip=module.params["skip"],
                     take=module.params["take"],
                 )["data"]
@@ -286,10 +244,6 @@ def main():
                     }
                     for agent in agents
                 ]
-            elif fact == "topology":
-                result["facts"][fact] = api.platform_network_topology(
-                    skip=module.params["skip"], take=module.params["take"]
-                )["data"]
     except ApiException:
         result["error"] = "Failure"
         module.fail_json(

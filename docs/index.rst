@@ -1,4 +1,3 @@
-:orphan:
 
 .. _plugins_in_syntropynet.syntropy:
 
@@ -9,6 +8,7 @@ Collection version 0.1.0
 
 .. toctree::
     :maxdepth: 1
+
 
 Plugin Index
 ------------
@@ -28,3 +28,12 @@ Modules
 .. seealso::
 
     List of :ref:`collections <list_of_collections>` with docs hosted here.
+
+.. toctree::
+    :maxdepth: 1
+    :hidden:
+
+    syntropy_api_key_module
+    syntropy_facts_module
+    syntropy_network_module
+    syntropy_template_module

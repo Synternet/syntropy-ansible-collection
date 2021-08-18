@@ -25,6 +25,7 @@ try:
 except ImportError:
     HAS_SDK = False
     SDK_IMP_ERR = traceback.format_exc()
+    raise
 
 
 class EnvVars:

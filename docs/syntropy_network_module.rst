@@ -109,7 +109,7 @@ Parameters
                     <a class="ansibleOptionLink" href="#parameter-connections" title="Permalink to this option"></a>
                     <div style="font-size: small">
                         <span style="color: purple">dictionary</span>
-                                                                    </div>
+                                                 / <span style="color: red">required</span>                    </div>
                                                         </td>
                                 <td>
                                                                                                                                                             </td>
@@ -117,58 +117,6 @@ Parameters
                                             <div>A dictionary specifying network connections. A key represents the name of the endpoint or tag name of a set of endpoints.</div>
                                             <div>Each endpoint has a mandatory option &#x27;type&#x27; which is one of &#x27;endpoint&#x27; or &#x27;tag&#x27; and a &#x27;state&#x27; option that is one of &#x27;present&#x27; or &#x27;absent&#x27;.</div>
                                             <div>For p2p or p2m networks a connections supports &#x27;connect_to&#x27; option which is a dictionary containing endpoint names/tags as keys.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-id"></div>
-                    <b>id</b>
-                    <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">integer</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>ID of the network. Has precedence before network name.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-ignore_configured_topology"></div>
-                    <b>ignore_configured_topology</b>
-                    <a class="ansibleOptionLink" href="#parameter-ignore_configured_topology" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">boolean</span>
-                                                                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
-                                                                                                                                                                                                <li>yes</li>
-                                                                                    </ul>
-                                                                            </td>
-                                                                <td>
-                                            <div>Instructs the platform to ignore currently configured network topology and</div>
-                                            <div>create/update connections between endpoints specified in connections according to the</div>
-                                            <div>topology specified in this config.</div>
-                                            <div>This parameter is mainly used to configure complex topologies consisting of multiple topologies.</div>
-                                                        </td>
-            </tr>
-                                <tr>
-                                                                <td colspan="1">
-                    <div class="ansibleOptionAnchor" id="parameter-name"></div>
-                    <b>name</b>
-                    <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
-                    <div style="font-size: small">
-                        <span style="color: purple">string</span>
-                                                 / <span style="color: red">required</span>                    </div>
-                                                        </td>
-                                <td>
-                                                                                                                                                            </td>
-                                                                <td>
-                                            <div>Name of the network.</div>
                                                         </td>
             </tr>
                                 <tr>
@@ -229,7 +177,6 @@ Examples
     
     -   name: Create a Point to point network
         syntropynetwork:
-            name: p2p-network
             topology: p2p
             use_sdn: no
             state: present
@@ -245,7 +192,6 @@ Examples
 
     -   name: Create a Point to multi-point network using tags
         syntropynetwork:
-            name: p2m-network
             topology: p2m
             use_sdn: no
             state: present
@@ -260,7 +206,6 @@ Examples
 
     -   name: Create a mesh network using tags
         syntropynetwork:
-            name: mesh-network
             topology: mesh
             use_sdn: yes
             state: present

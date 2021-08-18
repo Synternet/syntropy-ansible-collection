@@ -31,36 +31,17 @@ options:
         required: false
         default: null
         type: str
-    name:
-        description: Name of the network.
-        required: true
-        type: str
-    id:
-        description: ID of the network. Has precedence before network name.
-        required: false
-        default: null
-        type: int
     topology:
         description: Network topology.
         required: true
         choices: ['p2p', 'p2m', 'mesh']
         type: str
-    ignore_configured_topology:
-        description: 
-            - Instructs the platform to ignore currently configured network topology and
-            - create/update connections between endpoints specified in connections according to the
-            - topology specified in this config.
-            - This parameter is mainly used to configure complex topologies consisting of multiple topologies.
-        required: false
-        default: false
-        type: bool
     connections:
         description:
             - A dictionary specifying network connections. A key represents the name of the endpoint or tag name of a set of endpoints.
             - Each endpoint has a mandatory option 'type' which is one of 'endpoint' or 'tag' and a 'state' option that is one of 'present' or 'absent'.
             - For p2p or p2m networks a connections supports 'connect_to' option which is a dictionary containing endpoint names/tags as keys.
-        required: false
-        default: null
+        required: true
         type: dict
     state:
         description: A desired state of the API key.
@@ -73,7 +54,6 @@ options:
 EXAMPLES = """
 -   name: Create a Point to point network
     syntropynetwork:
-        name: p2p-network
         topology: p2p
         use_sdn: no
         state: present
@@ -89,7 +69,6 @@ EXAMPLES = """
 
 -   name: Create a Point to multi-point network using tags
     syntropynetwork:
-        name: p2m-network
         topology: p2m
         use_sdn: no
         state: present
@@ -104,7 +83,6 @@ EXAMPLES = """
 
 -   name: Create a mesh network using tags
     syntropynetwork:
-        name: mesh-network
         topology: mesh
         use_sdn: yes
         state: present
@@ -145,16 +123,13 @@ def main():
     argument_spec = {
         "api_url": dict(type="str", default=None),
         "api_token": dict(type="str", default=None, no_log=True),
-        "name": dict(type="str", required=True),
-        "id": dict(type="int", required=False, default=None),
         "state": dict(
             default="present",
             required=False,
             choices=["present", "absent"],
         ),
         "topology": dict(type="str", required=True, choices=["p2p", "p2m", "mesh"]),
-        "ignore_configured_topology": dict(type="bool", default=False),
-        "connections": dict(type="dict", required=False),
+        "connections": dict(type="dict", required=True),
     }
 
     result = dict(
@@ -177,13 +152,8 @@ def main():
 
     try:
         params = {
-            ConfigFields.NAME: module.params["name"],
-            ConfigFields.ID: module.params["id"],
             ConfigFields.STATE: module.params["state"],
             ConfigFields.TOPOLOGY: module.params["topology"],
-            ConfigFields.IGNORE_NETWORK_TOPOLOGY: module.params[
-                "ignore_configured_topology"
-            ],
             ConfigFields.CONNECTIONS: module.params["connections"],
         }
         result["changed"] = configure_network(

@@ -163,8 +163,8 @@ Parameters
                                                                     </div>
                                                         </td>
                                 <td>
-                                                                                                                                                                        <ul style="margin: 0; padding: 0"><b>Choices:</b>
-                                                                                                                                                                <li>no</li>
+                                                                                                                                                                                                                    <ul style="margin: 0; padding: 0"><b>Choices:</b>
+                                                                                                                                                                <li><div style="color: blue"><b>no</b>&nbsp;&larr;</div></li>
                                                                                                                                                                                                 <li>yes</li>
                                                                                     </ul>
                                                                             </td>
@@ -235,7 +235,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
                                             <div>Retrieved API key upon successful login.</div>
                                         <br/>
                                             <div style="font-size: smaller"><b>Sample:</b></div>
-                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;additionalProp1&#x27;: {}, &#x27;api_key_is_suspended&#x27;: True, &#x27;api_key_name&#x27;: &#x27;string&#x27;, &#x27;api_key_secret&#x27;: &#x27;string&#x27;, &#x27;api_key_valid_until&#x27;: &#x27;string&#x27;, &#x27;organization_id&#x27;: 0, &#x27;user_id&#x27;: 0}</div>
+                                                <div style="font-size: smaller; color: blue; word-wrap: break-word; word-break: break-all;">{&#x27;api_key_id&#x27;: 0, &#x27;api_key_is_suspended&#x27;: True, &#x27;api_key_name&#x27;: &#x27;string&#x27;, &#x27;api_key_secret&#x27;: &#x27;string&#x27;, &#x27;api_key_valid_until&#x27;: &#x27;string&#x27;, &#x27;organization_id&#x27;: 0, &#x27;user_id&#x27;: 0}</div>
                                     </td>
             </tr>
                                 <tr>
