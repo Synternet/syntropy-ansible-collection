@@ -6,7 +6,7 @@
 #
 aiofiles==0.7.0
     # via antsibull
-aiohttp==3.7.4.post0
+aiohttp==3.8.0.post0
     # via antsibull
 alabaster==0.7.12
     # via sphinx
