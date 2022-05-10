@@ -156,12 +156,12 @@ def main():
     )
 
     try:
-        keys = api.v1_network_auth_api_keys_get().data
-        keys = [i for i in keys if i.api_key_name == module.params["name"]]
+        keys = api.v1_network_auth_api_keys_get(_preload_content=False)["data"]
+        keys = [i for i in keys if i["api_key_name"] == module.params["name"]]
 
         if module.params["state"] == "present":
             if keys:
-                result["key"] = keys[0].to_dict()
+                result["key"] = keys[0]
                 module.exit_json(**result)
             if not module.check_mode:
                 body = V1NetworkAuthApiKeysCreateRequest(
@@ -177,7 +177,7 @@ def main():
             if not keys:
                 module.exit_json(**result)
             if not module.check_mode and keys:
-                api.v1_network_auth_api_keys_delete(keys[0].api_key_id)
+                api.v1_network_auth_api_keys_delete(keys[0]["api_key_id"])
                 result["changed"] = True
     except ApiException:
         result["error"] = "Failure"

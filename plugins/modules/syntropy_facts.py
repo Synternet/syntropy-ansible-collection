@@ -175,8 +175,8 @@ def main():
         auth_api = get_auth_api(
             api_url=module.params["api_url"], api_key=module.params["api_token"]
         )
-        agents_api = get_agents_api(client=agents_api.api_client)
-        connections_api = get_connections_api(client=agents_api.api_client)
+        agents_api = get_agents_api(client=auth_api.api_client)
+        connections_api = get_connections_api(client=auth_api.api_client)
 
         subset = (
             module.params["gather_subset"]
@@ -205,18 +205,19 @@ def main():
 
 
 def update_providers_fact(facts, api, module):
-    facts["providers"] = api.v1_network_agents_providers_get(
-        skip=module.params["skip"], take=module.params["take"]
-    ).to_dict()["data"]
+    facts["providers"] = WithPagination(api.v1_network_agents_providers_get)(
+        skip=module.params["skip"],
+        take=module.params["take"],
+        _preload_content=False,
+    )["data"]
 
 
 def update_api_keys_fact(facts, api, module):
-    facts["api_keys"] = [
-        key.to_dict()
-        for key in api.v1_network_auth_api_keys_get(
-            skip=module.params["skip"], take=module.params["take"]
-        ).data
-    ]
+    facts["api_keys"] = WithPagination(api.v1_network_auth_api_keys_get)(
+        skip=module.params["skip"],
+        take=module.params["take"],
+        _preload_content=False,
+    )["data"]
 
 
 def update_connections_fact(facts, api, module):
