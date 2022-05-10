@@ -36,11 +36,10 @@ options:
     description: API Key name.
     required: true
     type: str
-  suspend:
-    description: Indicate whether the API Key is suspended.
-    required: false
-    default: false
-    type: bool
+  description:
+    description: API Key description.
+    required: true
+    type: str
   expires:
     description:
         - ISO formatted API key expiration datetime.
@@ -60,13 +59,14 @@ EXAMPLES = """
 -   name: Create a new API key
     syntropy_api_key:
         name: my-api-key
-        suspend: no
+        description: A test key
         state: present
     register: api_key
 
 -   name: Delete an API key
     syntropy_api_key:
         name: my-api-key
+        description: A test key
         state: absent
 """
 
@@ -101,7 +101,8 @@ try:
         HAS_SDK,
         SDK_IMP_ERR,
         ApiException,
-        get_api_keys_api,
+        V1NetworkAuthApiKeysCreateRequest,
+        get_auth_api,
     )
 except ImportError:
     pass
@@ -112,12 +113,12 @@ def main():
         "api_url": dict(type="str", default=None),
         "api_token": dict(type="str", default=None, no_log=True),
         "name": dict(type="str", required=True),
+        "description": dict(type="str", required=True),
         "state": dict(
             default="present",
             required=False,
             choices=["present", "absent"],
         ),
-        "suspend": dict(type="bool", required=False, default=False),
         "expires": dict(
             type="str",
             required=False,
@@ -150,30 +151,33 @@ def main():
     except ValueError:
         module.fail_json(msg="Expires must be an ISO formatted date time")
 
-    api = get_api_keys_api(
+    api = get_auth_api(
         api_url=module.params["api_url"], api_key=module.params["api_token"]
     )
 
     try:
-        keys = api.get_api_key(filter=f"api_key_name:'{module.params['name']}'").data
+        keys = api.v1_network_auth_api_keys_get().data
+        keys = [i for i in keys if i.api_key_name == module.params["name"]]
 
         if module.params["state"] == "present":
             if keys:
                 result["key"] = keys[0].to_dict()
                 module.exit_json(**result)
             if not module.check_mode:
-                body = {
-                    "api_key_name": module.params["name"],
-                    "api_key_is_suspended": module.params["suspend"],
-                    "api_key_valid_until": expires,
-                }
-                result["key"] = api.create_api_key(body=body).data.to_dict()
+                body = V1NetworkAuthApiKeysCreateRequest(
+                    api_key_name=module.params["name"],
+                    api_key_valid_until=expires,
+                    api_key_description=module.params["description"],
+                )
+                result["key"] = api.v1_network_auth_api_keys_create(
+                    body=body
+                ).data.to_dict()
                 result["changed"] = True
         elif module.params["state"] == "absent":
             if not keys:
                 module.exit_json(**result)
             if not module.check_mode and keys:
-                api.delete_api_key(keys[0].api_key_id)
+                api.v1_network_auth_api_keys_delete(keys[0].api_key_id)
                 result["changed"] = True
     except ApiException:
         result["error"] = "Failure"

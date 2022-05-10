@@ -36,7 +36,7 @@ babel==2.9.1
     # via sphinx
 backports.entry-points-selectable==1.1.0
     # via virtualenv
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   -r requirements.txt
     #   requests
@@ -49,7 +49,7 @@ chardet==4.0.0
     # via aiohttp
 charset-normalizer==2.0.4
     # via requests
-click==8.0.1
+click==8.0.4
     # via
     #   -r dev-requirements.in
     #   -r requirements.txt
@@ -90,7 +90,7 @@ iniconfig==1.1.1
     # via pytest
 isort==5.9.3
     # via pylint
-jinja2==3.0.1
+jinja2==3.1.2
     # via
     #   -r requirements.txt
     #   ansible-base
@@ -98,7 +98,7 @@ jinja2==3.0.1
     #   sphinx
 lazy-object-proxy==1.6.0
     # via astroid
-markupsafe==2.0.1
+markupsafe==2.1.1
     # via
     #   -r requirements.txt
     #   jinja2
@@ -174,7 +174,7 @@ python-dateutil==2.8.2
     #   syntropy-sdk
 pytz==2021.1
     # via babel
-pyyaml==5.4.1
+pyyaml==6.0
     # via
     #   -r requirements.txt
     #   ansible-base
@@ -221,11 +221,11 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-syntropy-sdk==0.2.1
+syntropy-sdk==0.4.2
     # via
     #   -r requirements.txt
     #   syntropynac
-syntropynac==0.2.0
+syntropynac==0.3.0
     # via -r requirements.txt
 toml==0.10.2
     # via
@@ -238,7 +238,7 @@ typing-extensions==3.10.0.0
     # via
     #   aiohttp
     #   pydantic
-urllib3==1.26.6
+urllib3==1.26.9
     # via
     #   -r requirements.txt
     #   requests

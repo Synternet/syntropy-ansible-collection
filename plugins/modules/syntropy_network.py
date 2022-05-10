@@ -113,7 +113,7 @@ try:
         ConfigFields,
         ConfigureNetworkError,
         configure_network,
-        get_platform_api,
+        get_api_client,
     )
 except ImportError:
     pass
@@ -146,7 +146,7 @@ def main():
         result["error"] = SDK_IMP_ERR
         module.fail_json(msg=missing_required_lib("syntropynac"), exception=SDK_IMP_ERR)
 
-    api = get_platform_api(
+    api = get_api_client(
         api_url=module.params["api_url"], api_key=module.params["api_token"]
     )
 

@@ -9,12 +9,24 @@ import traceback
 
 SDK_IMP_ERR = None
 try:
-    from syntropy_sdk import ApiClient, ApiKeysApi, AuthApi, Configuration, PlatformApi
+    from syntropy_sdk import (
+        AgentsApi,
+        ApiClient,
+        AuthApi,
+        Configuration,
+        ConnectionsApi,
+    )
     from syntropy_sdk.exceptions import ApiException, SyntropyError
-    from syntropy_sdk.models import AccessTokenData
+    from syntropy_sdk.models import (
+        V1AgentFilter,
+        V1NetworkAgentsSearchRequest,
+        V1NetworkAuthApiKeysCreateRequest,
+    )
     from syntropy_sdk.utils import (
         MAX_QUERY_FIELD_SIZE,
         BatchedRequest,
+        BatchedRequestFilter,
+        WithPagination,
         login_with_access_token,
     )
     from syntropynac.configure import configure_network
@@ -36,7 +48,9 @@ def get_api_client(api_url=None, api_key=None):
     config = Configuration()
     config.host = api_url if api_url else os.environ.get(EnvVars.API_URL)
     access_token = api_key if api_key else os.environ.get(EnvVars.TOKEN)
-    config.api_key["Authorization"] = login_with_access_token(config.host, access_token)
+    config.api_key["Authorization"] = "Bearer " + login_with_access_token(
+        config.host, access_token
+    )
     return ApiClient(config)
 
 
@@ -49,5 +63,5 @@ def api_getter_builder(T):
 
 if HAS_SDK:
     get_auth_api = api_getter_builder(AuthApi)
-    get_api_keys_api = api_getter_builder(ApiKeysApi)
-    get_platform_api = api_getter_builder(PlatformApi)
+    get_agents_api = api_getter_builder(AgentsApi)
+    get_connections_api = api_getter_builder(ConnectionsApi)

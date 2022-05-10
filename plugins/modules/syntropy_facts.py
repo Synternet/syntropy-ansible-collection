@@ -121,9 +121,13 @@ try:
         MAX_QUERY_FIELD_SIZE,
         SDK_IMP_ERR,
         ApiException,
-        BatchedRequest,
-        get_api_keys_api,
-        get_platform_api,
+        BatchedRequestFilter,
+        V1AgentFilter,
+        V1NetworkAgentsSearchRequest,
+        WithPagination,
+        get_agents_api,
+        get_auth_api,
+        get_connections_api,
     )
 except ImportError:
     pass
@@ -167,19 +171,12 @@ def main():
             msg=missing_required_lib("syntropy-sdk"), exception=SDK_IMP_ERR
         )
 
-    filters = []
-    if module.params["endpoint_name"]:
-        filters.append(f"id|name:'{module.params['endpoint_name']}'")
-    if module.params["endpoint_tags"]:
-        escaped_tag_names = (f"'{i}'" for i in module.params["endpoint_tags"])
-        filters.append(f"tags_names[]:{';'.join(i for i in escaped_tag_names)}")
-    agents_filter = ",".join(filters) if filters else None
-
     try:
-        api = get_platform_api(
+        auth_api = get_auth_api(
             api_url=module.params["api_url"], api_key=module.params["api_token"]
         )
-        keys_api = get_api_keys_api(client=api.api_client)
+        agents_api = get_agents_api(client=agents_api.api_client)
+        connections_api = get_connections_api(client=agents_api.api_client)
 
         subset = (
             module.params["gather_subset"]
@@ -188,62 +185,13 @@ def main():
         )
         for fact in subset:
             if fact == "providers":
-                result["facts"][fact] = api.platform_agent_provider_index(
-                    skip=module.params["skip"], take=module.params["take"]
-                )
+                update_providers_fact(result["facts"], agents_api, module)
             elif fact == "api_keys":
-                result["facts"][fact] = [
-                    key.to_dict()
-                    for key in keys_api.get_api_key(
-                        skip=module.params["skip"], take=module.params["take"]
-                    ).data
-                ]
+                update_api_keys_fact(result["facts"], auth_api, module)
             elif fact == "connections":
-                connections = api.platform_connection_index(
-                    skip=module.params["skip"],
-                    take=module.params["take"],
-                )["data"]
-                ids = [connection["agent_connection_id"] for connection in connections]
-                connections_services = BatchedRequest(
-                    api.platform_connection_service_show,
-                    max_payload_size=MAX_QUERY_FIELD_SIZE,
-                )(ids)["data"]
-                connection_services = {
-                    connection["agent_connection_id"]: connection
-                    for connection in connections_services
-                }
-                result["facts"][fact] = [
-                    {
-                        **connection,
-                        "agent_connection_services": connection_services[
-                            connection["agent_connection_id"]
-                        ],
-                    }
-                    for connection in connections
-                ]
+                update_connections_fact(result["facts"], connections_api, module)
             elif fact == "endpoints":
-                agents = api.platform_agent_index(
-                    filter=agents_filter,
-                    skip=module.params["skip"],
-                    take=module.params["take"],
-                )["data"]
-                ids = [agent["agent_id"] for agent in agents]
-                if not ids:
-                    continue
-                agents_services = BatchedRequest(
-                    api.platform_agent_service_index,
-                    max_payload_size=MAX_QUERY_FIELD_SIZE,
-                )(ids)["data"]
-                agent_services = defaultdict(list)
-                for agent in agents_services:
-                    agent_services[agent["agent_id"]].append(agent)
-                result["facts"][fact] = [
-                    {
-                        **agent,
-                        "agent_services": agent_services.get(agent["agent_id"], []),
-                    }
-                    for agent in agents
-                ]
+                update_endpoints_fact(result["facts"], agents_api, module)
     except ApiException:
         result["error"] = "Failure"
         module.fail_json(
@@ -251,9 +199,101 @@ def main():
             exception=traceback.format_exc(),
         )
     finally:
-        del api.api_client
+        del auth_api.api_client
 
     module.exit_json(**result)
+
+
+def update_providers_fact(facts, api, module):
+    facts["providers"] = api.v1_network_agents_providers_get(
+        skip=module.params["skip"], take=module.params["take"]
+    ).to_dict()["data"]
+
+
+def update_api_keys_fact(facts, api, module):
+    facts["api_keys"] = [
+        key.to_dict()
+        for key in api.v1_network_auth_api_keys_get(
+            skip=module.params["skip"], take=module.params["take"]
+        ).data
+    ]
+
+
+def update_connections_fact(facts, api, module):
+    connections = WithPagination(api.v1_network_connections_get)(
+        skip=module.params["skip"],
+        take=module.params["take"],
+        _preload_content=False,
+    )["data"]
+
+    ids = [connection["agent_connection_group_id"] for connection in connections]
+    connections_services = BatchedRequestFilter(
+        api.v1_network_connections_services_get,
+        MAX_QUERY_FIELD_SIZE,
+    )(filter=ids, _preload_content=False)["data"]
+
+    connection_services = {
+        connection["agent_connection_group_id"]: connection
+        for connection in connections_services
+    }
+
+    facts["connections"] = [
+        {
+            **connection,
+            "agent_connection_services": connection_services[
+                connection["agent_connection_group_id"]
+            ],
+        }
+        for connection in connections
+    ]
+
+
+def update_endpoints_fact(facts, api, module):
+    name = module.params["endpoint_name"]
+    tags = module.params["endpoint_tags"]
+
+    if not name and not tags:
+        agents = WithPagination(api.v1_network_agents_get)(
+            skip=module.params["skip"],
+            take=module.params["take"],
+            _preload_content=False,
+        )["data"]
+    else:
+        filters = V1AgentFilter()
+        if name:
+            filters.agent_name = name
+        if tags:
+            filters.agent_tag_name = tags
+
+        agents = api.v1_network_agents_search(
+            V1NetworkAgentsSearchRequest(
+                filter=filters,
+                skip=module.params["skip"],
+                take=module.params["take"],
+            ),
+            # _preload_content=False,
+        ).to_dict()["data"]
+
+    ids = [agent["agent_id"] for agent in agents]
+    if not ids:
+        return
+
+    agents_services = BatchedRequestFilter(
+        api.v1_network_agents_services_get,
+        MAX_QUERY_FIELD_SIZE,
+    )(filter=ids, _preload_content=False)["data"]
+
+    agent_services = defaultdict(list)
+    for agent in agents_services:
+        agent_services[agent["agent_id"]].append(agent)
+
+    facts["endpoints"] = [
+        {
+            **agent,
+            "agent_services": agent_services.get(agent["agent_id"], []),
+        }
+        for agent in agents
+    ]
 
 
 if __name__ == "__main__":
